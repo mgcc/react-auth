@@ -16,15 +16,17 @@ export default class Authorized extends Component {
       {
         method: 'GET',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': `Bearer ${Auth.getToken()}`
-        },
+        }
       })
-      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        return response.json()
+      })
       .then(result => {
         console.log(result);
-        this.setState({ data: result });
+        this.setState({ data: result.data });
       })
   }
 
