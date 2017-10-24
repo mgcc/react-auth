@@ -3,10 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 // Config
 const CONFIG = require('./config/config');
+
+app.use(cookieParser(CONFIG.JWT_SECRET));
 
 // Models
 require('./models/index');
