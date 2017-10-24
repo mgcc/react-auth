@@ -9,7 +9,7 @@ const app = express();
 // Config
 const CONFIG = require('./config/config');
 
-app.use(cookieParser(CONFIG.JWT_SECRET));
+app.use(cookieParser(CONFIG.SECRET));
 
 // Models
 require('./models/index');

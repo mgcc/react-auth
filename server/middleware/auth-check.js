@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
 
   // decode the string using secret phrase
-  return jwt.verify(token, CONFIG.JWT_SECRET, (err, decoded) => {
+  return jwt.verify(token, CONFIG.SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).end();
     }

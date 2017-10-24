@@ -1,5 +1,6 @@
 const validator = require('validator');
 const passport = require('passport');
+const CONFIG = require('../config/config');
 
 const validateSignupForm = (payload) => {
   const errors = {};
@@ -105,15 +106,31 @@ exports.login = (req, res, next) => {
       console.log(err);
       return res.status(400).json({
         success: false,
-        message: 'Couldn\'t login'
+        message: 'Unable to log in'
       });
     }
+
+    const cookieOptions = {
+      maxAge: 1000 * 60 * 5,
+      httpOnly: true,
+      signed: true
+    }
+
+    // pass token as cookie
+    res.cookie(
+      'auth',
+      token,
+      {
+        maxAge: 1000 * 60 * 5, //5mins
+        httpOnly: true,
+        signed: true
+      });
 
     return res.json({
       success: true,
       message: 'You have successfully logged in!',
-      token,
       user: userData
-    })
+    });
+
   })(req, res, next);
 }

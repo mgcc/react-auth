@@ -20,30 +20,46 @@ module.exports = (app) => {
 
   app.post('/signup', authController.signup);
   app.post('/login', authController.login);
+  // app.post('/logout', authController.logout);
 
   // TESTING
   app.get('/no-auth', (req, res) => {
     console.log('GET /no-auth');
     res.send({ message: 'Hello world!' });
   })
-  app.get('/get-cookie', (req, res) => {
-    console.log('Getting cookie...');
 
+
+  app.get('/get-cookie', (req, res) => {
     const cookieOptions = {
       maxAge: 1000 * 60 * 5,
       httpOnly: true,
       signed: true
     }
 
-    res.cookie('auth', 'thisisacookie:>', cookieOptions)
+    res.cookie('signedCookie', 'thisisacookie:>', cookieOptions)
     res.send('Sent you a cookie!')
   })
 
   app.get('/check-cookie', (req, res) => {
     console.log('Checking cookie...');
-
     console.log(req.cookies);
+    console.log(req.signedCookies);
 
     res.send('hm...');
+  })
+
+  app.get('/cookies', (req, res) => {
+    const cookie = req.cookies.authCookie;
+    console.log('List of Cookies: ');
+    console.log(cookie);
+
+    if (cookie === undefined) {
+      res.cookie('authCookie', 'I Love Cheesecake <3');
+    }
+    else {
+      console.log('Cookies exists: ' + cookie);
+    }
+
+    res.send(`The cookie ${cookie ? 'exists' : 'doesn\'t exist'}`)
   })
 }

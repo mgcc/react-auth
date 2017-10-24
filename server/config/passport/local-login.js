@@ -12,10 +12,6 @@ module.exports = new PassportLocalStrategy(
   },
   (req, email, password, done) => {
 
-    console.log('Local login strat')
-    console.log(`email: ${email}`);
-    console.log(`password: ${password}`);
-
     const userData = {
       email: email.trim(),
       password: password.trim()
@@ -37,21 +33,28 @@ module.exports = new PassportLocalStrategy(
         return user.comparePassword(userData.password, (passwordErr, isMatch) => {
           if (passwordErr) {
             console.log('Error comparing password');
-            return done(err);
+            return done(passwordErr);
           }
 
           if (!isMatch) {
             console.log("Wrong password");
+            // not being caught properly.
+            // should create an actual error to pass
+
             // return done(null, false, { message: "Invalid Credentials"} );
-            return done(err);
+            return done(new Error("Invalid Credentials"));
           }
 
           const payload = {
             sub: user._id
           };
 
+          const options = {
+            expiresIn: 60 * 20   // 20m
+          }
+
           // create a token string
-          const token = jwt.sign(payload, CONFIG.JWT_SECRET);
+          const token = jwt.sign(payload, CONFIG.SECRET);
           const data = {
             name: user.name
           };
