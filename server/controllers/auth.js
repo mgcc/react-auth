@@ -134,3 +134,11 @@ exports.login = (req, res, next) => {
 
   })(req, res, next);
 }
+
+exports.logout = (req, res, next) => {
+  res.clearCookie('auth');
+  res.json({
+    success: true,
+    message: 'Successfully logged out'
+  });
+}

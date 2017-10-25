@@ -26,22 +26,24 @@ export default class Header extends Component {
 
   login(e) {
     e.preventDefault();
-    Auth.logIn(this.state.email, this.state.password, () => {
-      this.setState({ username: Auth.getUsername() });
+    Auth.logIn(this.state.email, this.state.password, (success) => {
+      if (success) {
+        this.setState({ username: Auth.getUsername() });
+        this.close();
+      } else {
+
+      }
     });
   }
 
   logout(e) {
     e.preventDefault();
 
-    Auth.removeUser((success) => {
+    Auth.logOut((success) => {
       if (success) {
         this.setState({ username: '' });
       }
     });
-    //destroy cookie
-    // res.clearCookie('auth') in the server
-
   }
 
   render() {
@@ -77,7 +79,8 @@ export default class Header extends Component {
               </NavItem>
               { username ?
                 <NavItem
-                  eventKey={5}>
+                  eventKey={5}
+                  onClick={this.logout}>
                   Log Out
                 </NavItem> :
                 ''

@@ -44,11 +44,8 @@ export default class Auth {
       .then(response => response.json())
       .then(result => {
         if (result.success) {
-          // this.authenticateUser(result.token);
-          console.log('Successfully logged in!');
-          console.log(result);
           this.saveUser(result.user);
-          callback();
+          callback(result.success);
         }
       })
   }

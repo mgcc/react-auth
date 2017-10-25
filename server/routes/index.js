@@ -20,7 +20,7 @@ module.exports = (app) => {
 
   app.post('/signup', authController.signup);
   app.post('/login', authController.login);
-  // app.post('/logout', authController.logout);
+  app.post('/logout', authController.logout);
 
   // TESTING
   app.get('/no-auth', (req, res) => {
