@@ -60,7 +60,6 @@ module.exports = new PassportLocalStrategy(
           };
 
           return done(null, token, data);
-
         })
       }
     )

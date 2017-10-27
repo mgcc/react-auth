@@ -64,5 +64,20 @@ export default class Auth {
         callback(result.success);
       })
   }
+
+  static authFetch(url, method, callback) {
+
+    fetch(url,
+      {
+        method: method,
+        headers: {
+          'Authorization': `Bearer ${this.getToken()}`
+        }
+      })
+      .then(response => response.json())
+      .then((result) => {
+        callback(result);
+      })
+  }
 }
 
