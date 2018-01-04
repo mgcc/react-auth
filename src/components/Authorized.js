@@ -14,18 +14,15 @@ export default class Authorized extends Component {
     fetch(
       'http://localhost:3001/authorized',
       {
-        method: 'GET'//,
+        method: 'GET',
         // headers: {
         //   // 'Content-Type': 'application/x-www-form-urlencoded',
         //   'Authorization': `Bearer ${Auth.getToken()}`
         // }
+        credentials: 'include'
       })
-      .then(response => {
-        console.log(response);
-        return response.json()
-      })
+      .then(response => response.json())
       .then(result => {
-        console.log(result);
         this.setState({ data: result.data });
       })
   }

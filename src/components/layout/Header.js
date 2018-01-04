@@ -12,7 +12,8 @@ export default class Header extends Component {
       showModal: false,
       email: '',
       password: '',
-      username: Auth.getUsername()
+      username: Auth.getUsername(),
+      loginErrorMessage: ''
     }
 
     this.open = this.open.bind(this);
@@ -31,7 +32,7 @@ export default class Header extends Component {
         this.setState({ username: Auth.getUsername() });
         this.close();
       } else {
-
+        this.setState({ loginErrorMessage: 'Unable to Log In'});
       }
     });
   }
@@ -109,6 +110,7 @@ export default class Header extends Component {
                   placeholder="Password"
                   />
               </FormGroup>
+              <div style={{ color: 'red' }}>{this.state.loginErrorMessage}</div>
               <Button
                 type="submit"
                 onClick={this.login}
@@ -123,7 +125,7 @@ export default class Header extends Component {
   }
 
   close() {
-    this.setState({ showModal: false });
+    this.setState({ showModal: false, loginErrorMessage: '' });
   }
 
   open() {

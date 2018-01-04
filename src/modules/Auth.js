@@ -1,4 +1,6 @@
 
+import Cookies from 'universal-cookie';
+
 export default class Auth {
 
   static authenticateUser(token) {
@@ -17,8 +19,8 @@ export default class Auth {
     return localStorage.getItem('token');
   }
 
-  static saveUser(user) {
-    localStorage.setItem('username', user.name);
+  static saveUser(userData) {
+    localStorage.setItem('username', userData.name);
   }
 
   static removeUser() {
@@ -35,34 +37,41 @@ export default class Auth {
       'http://localhost:3001/login',
       {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
         headers: {
           // 'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
+        credentials: 'same-origin',
+        body: JSON.stringify({ email, password })
       })
-      .then(response => response.json())
+      .then(response => {
+        return response.json()
+      })
       .then(result => {
         if (result.success) {
-          this.saveUser(result.user);
-          callback(result.success);
+          this.saveUser(result.userData);
+
+          const cookies = new Cookies();
+
+          cookies.set(
+            'auth-token',
+            result.token,
+            {
+              path: 'localhost:3001/',
+              maxAge: 60*5 // 5 minutes
+            });
         }
+        callback(result.success);
       })
   }
 
   static logOut(callback) {
-    fetch(
-      'http://localhost:3001/logout',
-      {
-        method: 'POST'
-      })
-      .then(response => response.json())
-      .then(result => {
-        if (result.success) {
-          this.removeUser();
-        }
-        callback(result.success);
-      })
+    const cookies = new Cookies();
+    cookies.remove('auth-token');
+
+    this.removeUser();
+    callback(true);
+
   }
 
   static authFetch(url, method, callback) {

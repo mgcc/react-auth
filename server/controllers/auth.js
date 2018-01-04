@@ -110,26 +110,34 @@ exports.login = (req, res, next) => {
       });
     }
 
-    const cookieOptions = {
-      maxAge: 1000 * 60 * 5,
-      httpOnly: true,
-      signed: true
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Unable to log in'
+      });
     }
 
-    // pass token as cookie
-    res.cookie(
-      'auth',
-      token,
-      {
-        maxAge: 1000 * 60 * 5, //5mins
-        httpOnly: true,
-        signed: true
-      });
+    // const cookieOptions = {
+    //   maxAge: 1000 * 60 * 5,
+    //   httpOnly: true,
+    //   signed: true
+    // }
+
+    // PASS TOKEN AS COOKIE
+    // res.cookie(
+    //   'auth',
+    //   token,
+    //   {
+    //     maxAge: 1000 * 60 * 5, //5mins
+    //     httpOnly: true,
+    //     signed: true
+    //   });
 
     return res.json({
       success: true,
       message: 'You have successfully logged in!',
-      user: userData
+      token,
+      userData
     });
 
   })(req, res, next);

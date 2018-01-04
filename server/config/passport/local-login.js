@@ -41,8 +41,8 @@ module.exports = new PassportLocalStrategy(
             // not being caught properly.
             // should create an actual error to pass
 
-            // return done(null, false, { message: "Invalid Credentials"} );
-            return done(new Error("Invalid Credentials"));
+            return done(null, false, { message: "Invalid Credentials"} );
+            // return done(new Error("Invalid Credentials"));
           }
 
           const payload = {
