@@ -73,11 +73,20 @@ export default class Header extends Component {
               </NavDropdown> */}
             </Nav>
             <Nav pullRight>
-              <NavItem
-                eventKey={4}
-                onClick={this.open}>
-                { username ?  username : `Log In` }
-              </NavItem>
+              {
+                username ?
+                (
+                  <NavItem
+                    eventKey={4}>
+                    { username }
+                  </NavItem>
+                ) :
+                (<NavItem
+                  eventKey={4}
+                  onClick={this.open}>
+                  Log In
+                </NavItem>)
+              }
               { username ?
                 <NavItem
                   eventKey={5}
