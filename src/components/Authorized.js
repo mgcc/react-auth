@@ -21,7 +21,7 @@ export default class Authorized extends Component {
         // }
         credentials: 'include'
       })
-      .then(response => response.json())
+      .then(response => response.text())
       .then(result => {
         this.setState({ data: result.data });
       })
